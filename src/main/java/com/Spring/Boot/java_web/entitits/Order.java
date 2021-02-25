@@ -1,6 +1,8 @@
 package com.Spring.Boot.java_web.entitits;
 
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.io.Serializable;
 import java.time.Instant;
 import javax.persistence.*;
@@ -14,12 +16,15 @@ public class Order implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private  Long id;
+
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd-'T' HH:mm:ss 'Z'", timezone = "GMT")
     private Instant moment;
 
     //Transformando em uma chave estrangeira
     @ManyToOne
     @JoinColumn(name = "client_id")
     //Implementando associação
+
     private User client;
 
     public Order(){

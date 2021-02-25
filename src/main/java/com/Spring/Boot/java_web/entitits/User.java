@@ -1,5 +1,7 @@
 package com.Spring.Boot.java_web.entitits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +23,8 @@ public class User implements Serializable {
 
     //implementando associações
     //Sempre instanciar uma coleção
+    //JsonIgnore para não entrar em lupng
+    @JsonIgnore
     @OneToMany(mappedBy = "client")
     private List<Order> orders = new ArrayList<>();
 
