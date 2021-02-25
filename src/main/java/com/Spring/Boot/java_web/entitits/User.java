@@ -1,14 +1,14 @@
 package com.Spring.Boot.java_web.entitits;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
+@Table(name = "tb_users")
 public class User implements Serializable {
-    private static final long serialVersionUID = 1l;
+    private static final long serialVersionUID = 1L;
 
     @Id
     //auto incremento do id no banco de dados
@@ -18,6 +18,11 @@ public class User implements Serializable {
     private String email;
     private String phone;
     private String password;
+
+    //implementando associações
+    //Sempre instanciar uma coleção
+    @OneToMany(mappedBy = "client")
+    private List<Order> orders = new ArrayList<>();
 
     public User() {
 
@@ -70,6 +75,14 @@ public class User implements Serializable {
     public void setPassword(){
         this.password = password;
     }
+    //esse um para muitos está mapeado do outro lado como client
+    @OneToMany(mappedBy = "client")
+    //Quando for uma coleção é somente o get
+    // o set não é necesário por que não vai ser trovadda a lista
+    //só vai ser acrescentado e removido elementos e para isso que o get serve
+    public List<Order> getOrders(){
+        return orders;
+    }
 
     @Override
     public int hashCode() {
@@ -92,7 +105,5 @@ public class User implements Serializable {
             if (other.id != null)
                 return false;
             return true;
-
-
     }
 }
