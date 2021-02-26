@@ -1,7 +1,9 @@
 package com.Spring.Boot.java_web.config;
 
+import com.Spring.Boot.java_web.Repository.CategotyRepository;
 import com.Spring.Boot.java_web.Repository.OrderRepository;
 import com.Spring.Boot.java_web.Repository.Repository;
+import com.Spring.Boot.java_web.entitits.Category;
 import com.Spring.Boot.java_web.entitits.Order;
 import com.Spring.Boot.java_web.entitits.User;
 import com.Spring.Boot.java_web.entitits.enums.OrderStatus;
@@ -17,17 +19,26 @@ import java.util.Arrays;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
-
+    //Injeção de dependências
     @Autowired
     private Repository repository;
 
     @Autowired
     private OrderRepository orderRepository;
 
+    @Autowired
+    private CategotyRepository categoryRepository;
+
 //Assim que o programa inicialialisar os usuarios seram criados
     //usando commandLineRnner e o metodo run
     @Override
     public void run(String... args) throws Exception {
+
+        Category cat1 = new Category(null, "Electronics");
+        Category cat2 = new Category(null, "Books");
+        Category cat3 = new Category(null, "Computers");
+
+
         User u1 = new User(null, "Maria Brown", "maria@gmail.com", "988888888", "123456");
         User u2 = new User(null, "Alex Green", "alex@gmail.com", "977777777", "123456");
 
@@ -37,5 +48,6 @@ public class TestConfig implements CommandLineRunner {
         // salvando os dados o banco de dados
         repository.saveAll(Arrays.asList(u1, u2));
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
+        categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
     }
 }
