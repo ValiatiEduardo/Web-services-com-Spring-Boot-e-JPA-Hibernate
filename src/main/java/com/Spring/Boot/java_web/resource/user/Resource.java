@@ -4,11 +4,10 @@ import com.Spring.Boot.java_web.Services.UserServices;
 import com.Spring.Boot.java_web.entitits.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import java.net.URI;
 import java.util.List;
 
 @RestController
@@ -32,5 +31,23 @@ public class Resource {
         //.ok é para indicar que teve sucesso
         // e no corpo da requisição passa o objeto obj
         return ResponseEntity.ok().body(obj);
+    }
+
+    //Endpoint para enserir
+    //Para inserir é usado o metodo HTTP Post
+    @PostMapping
+    public ResponseEntity<User> insert(@RequestBody User obj) { //recebe um objeto do tipo User
+    //para garantir que vai chegar uma requisição do tipo JSON @RequestBody
+        //Chamar services que já foi injeto   '@Autowired private UserServices services;'
+        //Para executar a opração de insert que já foi feita na class UserServices
+        // está da aqui
+        // public User insert(User obj){
+        //        return repository.save(obj);
+        //obj recebendo o resultado
+        obj = services.insert(obj);
+        //para retornar o codigo 201 http quer dizer que algo foi criado!!
+        URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}")
+                .buildAndExpand(obj.getId()).toUri();
+        return ResponseEntity.created(uri).body(obj);
     }
 }
