@@ -1,6 +1,5 @@
 package com.Spring.Boot.java_web.resource.user;
 
-import com.Spring.Boot.java_web.Repository.Repository;
 import com.Spring.Boot.java_web.Services.UserServices;
 import com.Spring.Boot.java_web.entitits.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;

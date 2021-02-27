@@ -1,9 +1,7 @@
 package com.Spring.Boot.java_web.Services;
 
 import com.Spring.Boot.java_web.Repository.OrderRepository;
-import com.Spring.Boot.java_web.Repository.Repository;
 import com.Spring.Boot.java_web.entitits.Order;
-import com.Spring.Boot.java_web.entitits.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
