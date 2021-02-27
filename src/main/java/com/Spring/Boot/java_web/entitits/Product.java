@@ -1,5 +1,7 @@
 package com.Spring.Boot.java_web.entitits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.HashSet;
@@ -25,7 +27,11 @@ public class Product implements Serializable {
     @JoinTable(name = "tb_product_category", joinColumns = @JoinColumn(name = "product_id"), inverseJoinColumns = @JoinColumn(name = "category_id"))
     private Set<Category> categories = new HashSet<>();
 
-
+    // Criando uma coleção do tipo Set ao invés do List
+    // por não adimitir repetiçoes do mesmo item.
+    // Mapeando a coleção no banco dedados.
+    @OneToMany(mappedBy = "id.product")
+    Set<OrderItem> items = new HashSet<>();
     public Product() {
     }
 
@@ -69,6 +75,17 @@ public class Product implements Serializable {
     }
     public Set<Category> getCategories() {
         return categories;
+    }
+
+    //Percorrendo a coleção intems
+    //pegando o objeto order associado ao objeto orderItems
+    @JsonIgnore
+    public Set<Order> getOrders(){
+        Set<Order> set = new HashSet<>();
+        for (OrderItem x : items) {
+            set.add(x.getOrder());
+        }
+        return set;
     }
     @Override
     public int hashCode() {
