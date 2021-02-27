@@ -6,6 +6,8 @@ import com.fasterxml.jackson.annotation.JsonFormat;
 
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.HashSet;
+import java.util.Set;
 import javax.persistence.*;
 
 
@@ -30,6 +32,10 @@ public class Order implements Serializable {
 
     private User client;
 
+    //mapeando
+    //no OrderItem tenho um Id e o id tem o pedido
+    @OneToMany(mappedBy = "id.order")
+    private Set<OrderItem> items = new HashSet<>();
     public Order(){
     }
 
@@ -51,6 +57,10 @@ public class Order implements Serializable {
 
     public Instant getMoment(){
         return moment;
+    }
+
+    public Set<OrderItem> getItems(){
+        return items;
     }
 
     public void setMoment(Instant moment){

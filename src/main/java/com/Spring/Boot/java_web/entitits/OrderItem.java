@@ -1,6 +1,7 @@
 package com.Spring.Boot.java_web.entitits;
 
 import com.Spring.Boot.java_web.entitits.pk.OrderItemPK;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -14,7 +15,7 @@ public class OrderItem implements Serializable {
 
     //primeiro atributo indentificador corrspondente a chave primária
     @EmbeddedId
-    private OrderItemPK id;
+    private OrderItemPK id = new OrderItemPK();
 
     private Integer quantity;
     private Double price;
@@ -30,7 +31,8 @@ public class OrderItem implements Serializable {
         this.quantity = quantity;
         this.price = price;
     }
-
+    //Impedir luping INFINITO
+    @JsonIgnore
     public Order getOrder() {
         return id.getOrder();
     }

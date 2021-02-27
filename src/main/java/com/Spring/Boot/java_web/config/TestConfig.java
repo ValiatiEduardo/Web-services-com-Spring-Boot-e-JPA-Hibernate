@@ -1,13 +1,7 @@
 package com.Spring.Boot.java_web.config;
 
-import com.Spring.Boot.java_web.Repository.CategotyRepository;
-import com.Spring.Boot.java_web.Repository.OrderRepository;
-import com.Spring.Boot.java_web.Repository.ProductRepository;
-import com.Spring.Boot.java_web.Repository.Repository;
-import com.Spring.Boot.java_web.entitits.Category;
-import com.Spring.Boot.java_web.entitits.Order;
-import com.Spring.Boot.java_web.entitits.Product;
-import com.Spring.Boot.java_web.entitits.User;
+import com.Spring.Boot.java_web.Repository.*;
+import com.Spring.Boot.java_web.entitits.*;
 import com.Spring.Boot.java_web.entitits.enums.OrderStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -20,7 +14,7 @@ import java.util.Arrays;
 @Configuration
 @Profile("test")
 public class TestConfig implements CommandLineRunner {
-    //Injeção de dependências
+    //Injeção de dependências Repository para poder salva no banco de dados
     @Autowired
     private Repository repository;
 
@@ -32,6 +26,9 @@ public class TestConfig implements CommandLineRunner {
 
     @Autowired
     private ProductRepository productRepository;
+
+    @Autowired
+    private OrderItemRepository orderItemRepository;
 
 //Assim que o programa inicialialisar os usuarios seram criados
     //usando commandLineRnner e o metodo run
@@ -75,5 +72,18 @@ public class TestConfig implements CommandLineRunner {
         orderRepository.saveAll(Arrays.asList(o1, o2, o3));
         categoryRepository.saveAll(Arrays.asList(cat1, cat2, cat3));
         productRepository.saveAll(Arrays.asList(p1, p2, p3, p4, p5));
+
+        //Associação entre os pedidos
+        //oi1 é um item de pedido  que é do pedido 1, que compro produto 1, quantidade dois,
+        //getPrice esta somente reproduzindo o preço do p1
+        // e assim sucessivamente
+        //essas relaçoes estão no diagrama!!
+        OrderItem oi1 = new OrderItem(o1, p1, 2, p1.getPrice());
+        OrderItem oi2 = new OrderItem(o1, p3, 1, p3.getPrice());
+        OrderItem oi3 = new OrderItem(o2, p3, 2, p3.getPrice());
+        OrderItem oi4 = new OrderItem(o3, p5, 2, p5.getPrice());
+        //Salvando no banco de dados precisa de um repository não só pra esse caso como para todos!!!!
+        orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
+
     }
 }
