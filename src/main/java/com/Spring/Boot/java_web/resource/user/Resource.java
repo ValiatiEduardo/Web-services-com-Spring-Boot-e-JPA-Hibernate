@@ -50,4 +50,16 @@ public class Resource {
                 .buildAndExpand(obj.getId()).toUri();
         return ResponseEntity.created(uri).body(obj);
     }
+
+    //Endepoint para deletar usuario
+
+    @DeleteMapping(value = "/{id}")
+    //PathVariable serve para o id ser reconhecido com uma variavel da URL
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
+        services.delete(id);
+        //noContent retorna um corpo vasio co o código http 204 correto
+        return ResponseEntity.noContent().build();
+
+    }
+
 }
