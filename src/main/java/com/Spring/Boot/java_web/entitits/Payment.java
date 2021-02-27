@@ -1,5 +1,7 @@
 package com.Spring.Boot.java_web.entitits;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.time.Instant;
@@ -20,6 +22,7 @@ public class Payment implements Serializable {
     //Associação 1 para 1
     //FEITO isso é preciso mapear na outra classe que é o Order
     //no atributo associado que é o payment
+    @JsonIgnore
     @OneToOne
     @MapsId
     private Order order;
