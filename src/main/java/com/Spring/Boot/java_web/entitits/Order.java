@@ -39,6 +39,11 @@ public class Order implements Serializable {
     public Order(){
     }
 
+    //Um pedido tem um pagamento
+    //Ter o mesmo id se o produto tem id 5 o pagamento também vai ter id 5
+    @OneToOne(mappedBy = "order", cascade = CascadeType.ALL)
+    private Payment payment;
+
     public Order(Long id, Instant moment, OrderStatus orderStatus, User client) {
         super();
         this.id = id;
@@ -73,6 +78,14 @@ public class Order implements Serializable {
         if(orderStatus != null) {
             this.orderStatus = orderStatus.getCode();
         }
+    }
+
+    public Payment getPayment() {
+        return payment;
+    }
+
+    public void setPayment(Payment payment) {
+        this.payment = payment;
     }
 
     public User getClient(){

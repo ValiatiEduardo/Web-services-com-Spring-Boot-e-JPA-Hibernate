@@ -85,5 +85,16 @@ public class TestConfig implements CommandLineRunner {
         //Salvando no banco de dados precisa de um repository não só pra esse caso como para todos!!!!
         orderItemRepository.saveAll(Arrays.asList(oi1, oi2, oi3, oi4));
 
+        //Inserindo um pagamento
+        //pedido o2 que já foi pago
+        //pagamento tem Id, instante que foi efetuado  e o pedido associado ao pagamento no caso '02'
+        Payment pay1 = new Payment(null, Instant.parse("2019-07-21T06:42:10Z"), o2);
+        //Para SALVAR UM OBJETO DEPENDENTE EM UMA RELAÇÃO 1 PARA 1 não pode chamar o repository do próprio objeto como antes
+        //É preciso fazer uma associação dupla em memória
+        //associa o pedido 02 com o pagamento pay1
+        o2.setPayment(pay1);
+        // Ápos isso é preciso mandarsalvar o pedido o2 novamente e próprio JPA vai trata de salva r o pagamento desse pedido
+        orderRepository.save(o2);
+
     }
 }
