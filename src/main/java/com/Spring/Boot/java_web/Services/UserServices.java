@@ -1,6 +1,7 @@
 package com.Spring.Boot.java_web.Services;
 
 import com.Spring.Boot.java_web.Repository.Repository;
+import com.Spring.Boot.java_web.Services.exceotion.ResourceNotFoundException;
 import com.Spring.Boot.java_web.entitits.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -26,7 +27,10 @@ public class UserServices {
     // recuperando um usuário por ID
     public User findById(Long id) {
         Optional<User> obj = repository.findById(id);
-        return obj.get();
+        //Trocar o get pelo orElseThorow
+        // A diferença é que ele vai tentar dar o get se ele não encontrar User ele retorna o exception tratado
+        //get retornava um erro padrão
+        return obj.orElseThrow( ()-> new ResourceNotFoundException(id));
     }
     //operação para inserir no banco de dados um novo objeto do tipo user
     public User insert(User obj){
