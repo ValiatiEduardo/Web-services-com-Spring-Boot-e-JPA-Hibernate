@@ -1,5 +1,6 @@
 package com.Spring.Boot.java_web.resource.user.exception;
 
+import com.Spring.Boot.java_web.Services.exceotion.Database.DatabaseExceptio;
 import com.Spring.Boot.java_web.Services.exceotion.ResourceNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -32,4 +33,13 @@ public class ResourceExceptionHandler {
         StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
         return ResponseEntity.status(status).body(err);
     }
+    //Mesma coisa feita ali em cima, porém erro diferente
+    @ExceptionHandler(DatabaseExceptio.class)
+    public ResponseEntity<StandardError> database(DatabaseExceptio e, HttpServletRequest request){
+        String error = "Database error";
+        HttpStatus status = HttpStatus.BAD_REQUEST;
+        StandardError err = new StandardError(Instant.now(), status.value(), error, e.getMessage(), request.getRequestURI());
+        return ResponseEntity.status(status).body(err);
+    }
+
 }

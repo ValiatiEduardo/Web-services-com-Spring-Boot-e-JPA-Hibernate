@@ -4,6 +4,8 @@ import com.Spring.Boot.java_web.Repository.Repository;
 import com.Spring.Boot.java_web.Services.exceotion.ResourceNotFoundException;
 import com.Spring.Boot.java_web.entitits.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 
@@ -39,7 +41,13 @@ public class UserServices {
 
     //Deletar o usuario do banco de dados
     public void delete (Long id) {
-        repository.deleteById(id);
+        try {
+            repository.deleteById(id);
+        }catch (EmptyResultDataAccessException e) {
+            throw new ResourceNotFoundException(id);
+        }catch (DataIntegrityViolationException e) {
+            throw new DataIntegrityViolationException(e.getMessage());
+        }
     }
 
     //atualisar dados no banco
