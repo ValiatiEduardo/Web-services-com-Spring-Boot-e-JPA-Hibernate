@@ -9,6 +9,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Component;
 
 
+import javax.persistence.EntityNotFoundException;
 import javax.xml.crypto.Data;
 import java.util.List;
 import java.util.Optional;
@@ -56,11 +57,15 @@ public class UserServices {
     //getOne é diferente do findById: vai la no banco de dados e pega e leva os dados
     //getOne só prepara o objeto para minha manipulação e só depois efetuar uma operação com o banco
     public User update(Long id, User obj) {
-        User enttity = repository.getOne(id);
-        //atualisa os dados do entity baseado com os dados do obj
-        updateData(enttity, obj);
-        //salvar no banco de dados o entity
-        return repository.save(enttity);
+        try {
+            User enttity = repository.getOne(id);
+            //atualisa os dados do entity baseado com os dados do obj
+            updateData(enttity, obj);
+            //salvar no banco de dados o entity
+            return repository.save(enttity);
+        }catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException(id);
+        }
     }
     //Atualisar os dados do entity com base com que chedo no obj
     private void updateData(User enttity, User obj) {
